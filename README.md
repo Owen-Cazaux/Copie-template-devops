@@ -44,7 +44,7 @@ cd frontend
 npm ci
 npm run dev
 ```
-
+x
 Le front est servi sur <http://localhost:5173> ; les appels à `/api` sont redirigés vers l'API sur le port 8000.
 
 ## Lancer la stack avec Docker Compose

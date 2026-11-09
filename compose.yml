@@ -5,8 +5,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-dropzone}
       POSTGRES_USER: ${POSTGRES_USER:-dropzone}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dropzone_dev}
-    ports:
-      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,8 +21,6 @@ services:
       DATABASE_URL: "postgresql+psycopg://${POSTGRES_USER:-dropzone}:${POSTGRES_PASSWORD:-dropzone_dev}@db:5432/${POSTGRES_DB:-dropzone}"
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
-    ports:
-      - "127.0.0.1:8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -43,7 +39,7 @@ services:
     build:
       context: ./frontend
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8080:8080"
     depends_on:
       api:
         condition: service_healthy
