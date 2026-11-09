@@ -47,6 +47,19 @@ npm run dev
 x
 Le front est servi sur <http://localhost:5173> ; les appels à `/api` sont redirigés vers l'API sur le port 8000.
 
+## Lancer la stack avec Docker Compose
+
+Prérequis : Docker avec le plugin Compose.
+
+```bash
+Copy-Item .env.example .env       # PowerShell ; sur macOS/Linux : cp .env.example .env
+docker compose up --build
+```
+
+Le front est disponible sur <http://localhost:8080>, l'API sur <http://localhost:8000> (documentation sur `/docs`) et PostgreSQL sur le port local 5432. Compose attend que PostgreSQL puis l'API soient en bonne santé avant de démarrer le service suivant. La base est conservée dans le volume `postgres_data`.
+
+Cette configuration est destinée au développement : elle utilise des identifiants locaux par défaut et active les données de démonstration. Ne réutilisez pas ces valeurs en production. Pour arrêter la stack sans supprimer les données : `docker compose down`. Pour supprimer aussi la base locale : `docker compose down --volumes`.
+
 ## Qualité et tests
 
 ```bash
@@ -101,14 +114,18 @@ La configuration passe par des variables d'environnement (ou un fichier `backend
 
 ```text
 .
+├── compose.yml              stack de développement (API, front et PostgreSQL)
+├── .env.example             exemple de configuration locale pour Compose
 ├── backend/                 API FastAPI
 │   ├── app/                 code (routes, services, domaine, modèles)
 │   ├── tests/               tests pytest (SQLite en mémoire)
+│   ├── Dockerfile           image de l'API
 │   ├── pyproject.toml       configuration Ruff et pytest
 │   └── requirements*.txt    dépendances épinglées
 └── frontend/                application React
     ├── src/                 composants, pages et tests Vitest
     ├── e2e/                 tests Playwright
+    ├── Dockerfile           build du front et image Nginx
     ├── nginx.conf           configuration nginx pour servir le front dans un conteneur
     └── playwright.config.ts
 ```
