@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Sub-path when served from GitHub Pages (/<repo>/); '/' otherwise.
+  base: process.env.VITE_BASE ?? '/',
   plugins: [react()],
   server: {
     // In development, /api is forwarded to the API (same path as behind nginx in Docker).
